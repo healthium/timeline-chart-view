@@ -388,6 +388,7 @@ public class TimelineChartView extends View {
     private Paint[] mSeriesBgPaint;
     private Paint[] mHighlightSeriesBgPaint;
     private TextPaint mTickLabelFgPaint;
+    private Integer mSelectedItemBackgroundColor;
 
     private final Path mCurrentPositionPath = new Path();
 
@@ -780,6 +781,22 @@ public class TimelineChartView extends View {
             mTickLabelFgPaint.setColor(MaterialPaletteHelper.isDarkColor(color)
                     ? Color.LTGRAY : Color.DKGRAY);
             ViewCompat.postInvalidateOnAnimation(this);
+        }
+    }
+
+    /**
+     * Set selected item background and area background colors.
+     */
+    public void setGraphBackgroundColors(int selectedBackgroundColor, int graphAreaBackgroundColor) {
+        mSelectedItemBackgroundColor = selectedBackgroundColor;
+        setGraphAreaBackground(graphAreaBackgroundColor);
+    }
+
+    public int getHighlightColor(int paletteColor) {
+        if (mSelectedItemBackgroundColor != null) {
+            return mSelectedItemBackgroundColor;
+        } else {
+             return MaterialPaletteHelper.getComplementaryColor(paletteColor);
         }
     }
 
@@ -2115,8 +2132,7 @@ public class TimelineChartView extends View {
                 currentPalette[i] = mUserPalette[i];
                 seriesBgPaint[i].setColor(currentPalette[i]);
                 highlightSeriesBgPaint[i] = new Paint(seriesBgPaint[i]);
-                highlightSeriesBgPaint[i].setColor(
-                        MaterialPaletteHelper.getComplementaryColor(currentPalette[i]));
+                highlightSeriesBgPaint[i].setColor(getHighlightColor(currentPalette[i]));
             }
         }
 
@@ -2128,8 +2144,7 @@ public class TimelineChartView extends View {
             currentPalette[i] = palette[i - userPaletteCount];
             seriesBgPaint[i].setColor(currentPalette[i]);
             highlightSeriesBgPaint[i] = new Paint(seriesBgPaint[i]);
-            highlightSeriesBgPaint[i].setColor(
-                    MaterialPaletteHelper.getComplementaryColor(currentPalette[i]));
+            highlightSeriesBgPaint[i].setColor(getHighlightColor(currentPalette[i]));
         }
 
         final boolean changed = !(Arrays.equals(currentPalette, mCurrentPalette));

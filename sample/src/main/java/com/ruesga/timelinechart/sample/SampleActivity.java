@@ -104,6 +104,7 @@ public class SampleActivity extends AppCompatActivity {
                     mToolbar.setBackgroundColor(color);
                     mGraph.setBackgroundColor(color);
                     mGraph.setGraphAreaBackground(color);
+                    //mGraph.setGraphBackgroundColors(Color.WHITE, color);
                     break;
                 case R.id.sound:
                     mSound++;
